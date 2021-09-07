@@ -3,7 +3,7 @@ _Tyro_ is a new tool for translating a sequential Python program into a semantic
 The input sequential program generally iterates over huge datasets. 
 Tyro uses techniques from classical compilers like pattern matching rules to apply transformations when the input code matches a pattern. 
 
-Tyro utilizes the **GRA**dual **S**ynthesis for **S**tatic **P**arallelization (GRASSP) [See](https://dl.acm.org/doi/10.1145/3062341.3062382) approach 
+Tyro utilizes the **GRA**dual **S**ynthesis for **S**tatic **P**arallelization ([GRASSP](https://dl.acm.org/doi/10.1145/3062341.3062382)) approach 
 to convert the selected fragment from the existing code. 
 The key idea behind GRASSP is to gradually increase the complexity of the target for translation.
 Finally, Tyro uses user supplied test cases to determine program equivalence between the initial program and the parallel result.
