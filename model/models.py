@@ -4,8 +4,9 @@ The meta-information structure has four different substructures: Program Informa
 Loop Information,and Operation Information.
 """
 
-from model.nested_loop import NestedLoop
 import ast
+
+from model.nested_loop import NestedLoop
 
 
 class ProgramInformation:

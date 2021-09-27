@@ -25,5 +25,5 @@ directory has all generated programs.
 
 Right now, we are working on GUI version of Tyro, which will make the whole process easy and simple. 
 
-#### Contact
-If you have any queries and suggestion, feel free contact via email: arun_sanjel1@baylor.edu, sanjelarun@gmail.com
+### Contact
+If you have any queries or suggestions, feel free contact via email: arun_sanjel1@baylor.edu, sanjelarun@gmail.com
