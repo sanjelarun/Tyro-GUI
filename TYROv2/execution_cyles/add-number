@@ -1,0 +1,25 @@
+digraph "clusteradd-numbers.py" {
+	graph [label="add-numbers.py"]
+	1 [label="def myadd(a=1, b=2, c=3):...
+s = 0
+"]
+	6 [label="for i in range(10):
+"]
+	7 [label="s += myadd(i, i * i, i ** 3)
+"]
+	"7_calls" [label=myadd shape=box]
+	7 -> "7_calls" [label=calls style=dashed]
+	7 -> 6 [label=""]
+	6 -> 7 [label="range(10)"]
+	8 [label="print(s)
+"]
+	"8_calls" [label=print shape=box]
+	8 -> "8_calls" [label=calls style=dashed]
+	6 -> 8 [label=""]
+	1 -> 6 [label=""]
+	subgraph clustermyadd {
+		graph [label=myadd]
+		3 [label="return a + b + c
+"]
+	}
+}

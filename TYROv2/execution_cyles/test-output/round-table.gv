@@ -1,0 +1,23 @@
+// Preview
+digraph {
+	1 [label="s = 0"]
+	0 -> 1 [constraints=false]
+	2 [label="for i in range(10):"]
+	1 -> 2 [constraints=false]
+	3 [label="for k in range(10):"]
+	2 -> 3 [constraints=false]
+	9 [label="print(s)"]
+	2 -> 9 [constraints=false]
+	4 [label="print(k)"]
+	3 -> 4 [constraints=false]
+	7 [label="b = 2 + 3"]
+	3 -> 7 [constraints=false]
+	5 [label="a = 10"]
+	4 -> 5 [constraints=false]
+	8 [label="j = 0"]
+	7 -> 8 [constraints=false]
+	6 [label="d = 1000"]
+	5 -> 6 [constraints=false]
+	8 -> 2 [constraints=false]
+	6 -> 3 [constraints=false]
+}
