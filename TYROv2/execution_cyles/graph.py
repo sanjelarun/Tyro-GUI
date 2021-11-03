@@ -3,6 +3,8 @@ import graphviz
 
 from node import Node
 
+COLORS = ['red', 'green']
+
 
 class Graph:
 
@@ -36,6 +38,17 @@ class Graph:
     def addNodes(self, node: Node):
         self.nodes.append(node)
 
+    def get_all_parents(self, node: Node):
+        parents = []
+        currPointer = node
+        while currPointer:
+            if currPointer.parent_loop_node:
+                parents.append(currPointer.parent_loop_node)
+            currPointer = currPointer.parent_loop_node
+        return parents
+
+
+
     def get_graph_pdf(self):
         not_visited_queue = []  # FIFO
         dot = graphviz.Digraph(comment="Preview")
@@ -52,6 +65,19 @@ class Graph:
                     visited.append(eachNext.id)
                     not_visited_queue.append(eachNext)
                 dot.edge(str(currNode.id), str(eachNext.id), constraints='false')
+
+        for eachNode in self.nodes:
+            if eachNode.parent_loop_node:
+                parents = self.get_all_parents(eachNode)
+                for p in parents:
+                    for loop_val in eachNode.loop_variables:
+                        if loop_val in p.loop_variables:
+                            print(loop_val, "Compare", p.loop_variables)
+                            print(eachNode.id, p.id)
+                            dot.edge(str(eachNode.id), str(p.id), constraints='false',color=COLORS[1], arrowsize='3')
+                # for loop_val in eachNode.loop_variables:
+                #     if loop_val in eachNode.parent_loop_node.loop_variables:
+                #         dot.edge(str(eachNode.id), str(eachNode.parent_loop_node.id), color=COLORS[1])
         print(dot.source)
         dot.render('test-output/round-table.gv', view=True)  # doctest: +SKIP
         'test-output/round-table.gv.pdf'

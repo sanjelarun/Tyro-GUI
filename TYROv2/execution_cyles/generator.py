@@ -39,20 +39,45 @@ def is_statement(astNode):
     return False
 
 
+def get_loop_variables(loopNode):
+    return loopNode.target.id
+
+
+def get_count_variables(loopNode):
+    if loopNode.iter.args[0].__class__ == ast.Name :
+        return loopNode.iter.args[0].id
+    return None
+
+
 def convert_loop_expression_to_graph(loop_node_ast, parentNode : Node, graph):
 
     mainNode = graph.create_new_node(node_ast=loop_node_ast,
                                      exp=get_expression_from_node(loop_node_ast),
                                      parent=parentNode)
+    tmp = get_loop_variables(loop_node_ast)
+    if tmp is not None:
+        mainNode.add_variables(tmp)
+    tmp = get_count_variables(loop_node_ast)
+    if tmp is not None:
+        mainNode.add_variables(tmp)
     currNode = mainNode
+    loopNode = mainNode
     for a in loop_node_ast.body:
         #currNode = parentNode
         # hello = astor.to_source(a)
         flag = check_ast_for_type(a)
         if flag == 1:
             newNode = convert_loop_expression_to_graph(a, currNode, graph)
+            newNode.set_parent_loop(loopNode)
+            tmp = get_loop_variables(a)
+            if tmp is not None:
+                newNode.add_variables(tmp)
+            tmp = get_count_variables(a)
+            if tmp is not None:
+                newNode.add_variables(tmp)
             currNode.set_next_node(newNode)
             currNode = newNode
+            loopNode = newNode
         elif flag == 2:
             exp = graph.create_new_node(node_ast=a, exp=get_expression_from_node(a), parent=currNode)
             currNode.set_next_node(exp)
@@ -90,6 +115,9 @@ def convert_graph_to_struct(source_filepath):
         if flag == 1:
             #currNode.set_next_node(node)
             newNode =  convert_loop_expression_to_graph(a, currNode, convertedGraph)
+            newNode.set_parent_loop(currNode)
+            newNode.add_variables(get_loop_variables(a))
+            newNode.add_variables(get_count_variables(a))
             currNode.set_next_node(newNode)
             currNode = newNode
         elif flag == 2:
@@ -103,7 +131,7 @@ def convert_graph_to_struct(source_filepath):
     return convertedGraph
 
 
-filepath = "/home/sanjelarun/Tyro_GUI/Tyro-GUI/TYROv2/execution_cyles/add-numbers.py"
+filepath = "/home/sanjelarun/Tyro_GUI/Tyro-GUI/TYROv2/execution_cyles/add-numbers-1.py"
 root = convert_graph_to_struct(filepath)
 print_graph(root)
 
