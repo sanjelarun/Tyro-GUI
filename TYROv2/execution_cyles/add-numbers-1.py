@@ -1,14 +1,9 @@
-def myadd(a=1, b=2, c=3):
-    if a > 7:
-        return -1
-    return a + b + c
+# User Defined Function to add two numbers similar to a reducer
+def add(a,b):
+    return a + b
 
-## MAIN STARTS HERE
+nums = [1,2,3,4,5]
 s = 0
-for i in range(10):
-    for k in range(i):
-        print(k)
-        for z in range(k):
-            print ("Hello")
-            for hello in range(z):
-                print("3rd level")
+for i in nums:
+    s += add(s,i)
+print(s)

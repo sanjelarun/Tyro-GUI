@@ -15,7 +15,7 @@ def print_graph(graph: Graph):
         while not_visited_queue:
             currNode = not_visited_queue.pop(0)
             visited.append(currNode.id)
-            print(str(currNode.id) + " " + currNode.label + "-->" )
+            #print(str(currNode.id) + " " + currNode.label + "-->" )
             for eachNext in currNode.next:
                 if eachNext.id not in visited:
                     not_visited_queue.append(eachNext)
@@ -44,8 +44,11 @@ def get_loop_variables(loopNode):
 
 
 def get_count_variables(loopNode):
-    if loopNode.iter.args[0].__class__ == ast.Name :
-        return loopNode.iter.args[0].id
+    if isinstance(loopNode.iter, ast.Call):
+        if loopNode.iter.args[0].__class__ == ast.Name :
+            return loopNode.iter.args[0].id
+    if isinstance(loopNode.iter, ast.Name):
+        return loopNode.iter.id
     return None
 
 
@@ -83,12 +86,15 @@ def convert_loop_expression_to_graph(loop_node_ast, parentNode : Node, graph):
             currNode.set_next_node(exp)
             currNode = exp
         elif flag == 3:
+            #exp = graph.create_new_node(node_ast=a, exp=get_expression_from_node(a), parent=None)
             currNode.set_next_node(None)
     currNode.set_next_node(mainNode)
     return mainNode
 
 
 def get_expression_from_node(astNode):
+    if isinstance(astNode, ast.FunctionDef):
+        return 'def ' + astNode.name +'(...'
     source_code = astor.to_source(astNode).split("\n")[0]
     return source_code
 
@@ -123,7 +129,7 @@ def convert_graph_to_struct(source_filepath):
         elif flag == 2:
             newNode = convertedGraph.create_new_node(a, exp=get_expression_from_node(a), parent=currNode)
             currNode.set_next_node(newNode)
-            currNode =  newNode
+            currNode = newNode
         elif flag == 3:
             newNode = convertedGraph.create_new_node(a, exp=get_expression_from_node(a), parent=currNode)
             currNode.set_next_node(newNode)
@@ -133,6 +139,9 @@ def convert_graph_to_struct(source_filepath):
 
 filepath = "/home/sanjelarun/Tyro_GUI/Tyro-GUI/TYROv2/execution_cyles/add-numbers-1.py"
 root = convert_graph_to_struct(filepath)
-print_graph(root)
+
+
+
+#print_graph(root)
 
 root.get_graph_pdf()

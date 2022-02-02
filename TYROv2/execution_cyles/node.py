@@ -9,6 +9,7 @@ class Node:
         self.loop_counter = 0
         self.loop_variables = []
         self.parent_loop_node = None
+        self.interaction = False
 
     def set_next_node(self, next_node):
         self.next.append(next_node)

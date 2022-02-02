@@ -16,14 +16,9 @@ for i in range(10):
         d = 1000
     b = 2 + 3
     j = 0
-    if i > 5:
-        s += myadd(i, i * i, i ** 3)
-    else:
-        s -= myadd(i, i * i, i ** 3)
-        for j in range(i):
-            s *= 2
     for j in range(100):
-        print(j)
+        s *= 2
         for h in range(i):
+            b = b + 1
             print("Now this is complex")
 print(s)
